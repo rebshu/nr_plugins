@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rebecca × Johny × Kelly — Founder Pattern Analysis</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #F5F2ED;
+    --bg-card: #EFECE6;
+    --bg-dark: #1A1917;
+    --ink: #1A1917;
+    --ink-mid: #4A4845;
+    --ink-light: #8A8784;
+    --border: rgba(26,25,23,0.10);
+    --border-mid: rgba(26,25,23,0.16);
+    --r-accent: #4A4845;
+    --k-accent: #6B6562;
+    --j-accent: #2C2A28;
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    font-size: 16px;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--bg-dark);
+    color: #F5F2ED;
+    padding: 80px 48px 72px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 420px; height: 420px;
+    border-radius: 50%;
+    border: 1px solid rgba(245,242,237,0.05);
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: 30%;
+    width: 260px; height: 260px;
+    border-radius: 50%;
+    border: 1px solid rgba(245,242,237,0.04);
+  }
+  .header-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(245,242,237,0.35);
+    margin-bottom: 28px;
+  }
+  header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 4.5vw, 3.4rem);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    max-width: 680px;
+    margin-bottom: 20px;
+  }
+  header h1 em { font-style: italic; color: rgba(245,242,237,0.5); }
+  .header-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: rgba(245,242,237,0.32);
+    letter-spacing: 0.05em;
+    max-width: 520px;
+    line-height: 1.65;
+  }
+
+  /* FOUNDER PILLS */
+  .founder-pills {
+    display: flex;
+    gap: 10px;
+    margin-top: 32px;
+    flex-wrap: wrap;
+  }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(245,242,237,0.08);
+    border: 1px solid rgba(245,242,237,0.14);
+    border-radius: 100px;
+    padding: 6px 16px 6px 10px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: rgba(245,242,237,0.65);
+  }
+  .pill-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+  }
+  .pill-dot.r { background: #A89B8C; }
+  .pill-dot.j { background: #C4B89A; }
+  .pill-dot.k { background: #8CA89B; }
+
+  /* NAV */
+  nav {
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    padding: 0 48px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+  }
+  nav span {
+    display: block;
+    padding: 18px 18px 16px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    white-space: nowrap;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  nav span:hover { color: var(--ink); border-bottom-color: var(--ink); }
+
+  /* LAYOUT */
+  main { max-width: 920px; margin: 0 auto; padding: 72px 48px 120px; }
+  section { margin-bottom: 92px; }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 12px;
+  }
+
+  h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+  }
+  h2 em { font-style: italic; color: var(--ink-mid); }
+
+  p {
+    color: var(--ink-mid);
+    margin-bottom: 18px;
+    max-width: 700px;
+    font-size: 15.5px;
+    line-height: 1.72;
+  }
+  p strong { color: var(--ink); font-weight: 500; }
+
+  /* 3-COL FOUNDER GRID */
+  .founder-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-top: 36px;
+  }
+  .founder-col {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 28px 26px 32px;
+  }
+  .founder-col:first-child { border-radius: 8px 0 0 8px; }
+  .founder-col:last-child  { border-radius: 0 8px 8px 0; }
+
+  .founder-name {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .founder-name .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    display: inline-block;
+  }
+  .dot-r { background: #A89B8C; }
+  .dot-j { background: #C4B89A; }
+  .dot-k { background: #8CA89B; }
+
+  .founder-col h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.05rem;
+    font-weight: 400;
+    margin-bottom: 10px;
+    line-height: 1.2;
+  }
+  .founder-col p {
+    font-size: 13.5px;
+    line-height: 1.62;
+    color: var(--ink-mid);
+    margin: 0;
+    max-width: none;
+  }
+
+  /* PATTERN LIST */
+  .pattern-list { list-style: none; margin-top: 32px; border-top: 1px solid var(--border); }
+  .pattern-list li {
+    display: grid;
+    grid-template-columns: 190px 1fr;
+    gap: 28px;
+    padding: 26px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: start;
+  }
+  .pattern-key {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    padding-top: 3px;
+    line-height: 1.6;
+  }
+  .pattern-val { font-size: 15px; color: var(--ink-mid); line-height: 1.68; }
+  .pattern-val strong { color: var(--ink); font-weight: 500; }
+
+  /* COMPARISON TABLE */
+  .compare-table {
+    margin-top: 36px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .compare-row {
+    display: grid;
+    grid-template-columns: 160px 1fr 1fr 1fr;
+    border-bottom: 1px solid var(--border);
+  }
+  .compare-row:last-child { border-bottom: none; }
+  .compare-row.header {
+    background: var(--bg-card);
+  }
+  .compare-cell {
+    padding: 18px 20px;
+    font-size: 13.5px;
+    color: var(--ink-mid);
+    border-right: 1px solid var(--border);
+    line-height: 1.55;
+    vertical-align: top;
+  }
+  .compare-cell:last-child { border-right: none; }
+  .compare-row.header .compare-cell {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .compare-cell strong { color: var(--ink); font-weight: 500; }
+  .compare-row.header .compare-cell .dot { flex-shrink: 0; }
+
+  /* CALLOUT */
+  .callout {
+    background: var(--bg-dark);
+    color: #F5F2ED;
+    border-radius: 10px;
+    padding: 40px 44px;
+    margin: 40px 0;
+  }
+  .callout .section-label { color: rgba(245,242,237,0.30); }
+  .callout h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.35rem;
+    font-weight: 400;
+    margin-bottom: 14px;
+    line-height: 1.2;
+  }
+  .callout p { color: rgba(245,242,237,0.68); max-width: none; font-size: 15px; }
+  .callout p strong { color: #F5F2ED; }
+
+  /* WARN CALLOUT */
+  .callout-warn {
+    background: var(--bg-card);
+    border: 1px solid var(--border-mid);
+    border-radius: 10px;
+    padding: 30px 34px;
+    margin: 28px 0;
+  }
+  .callout-warn h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    margin-bottom: 10px;
+    line-height: 1.2;
+  }
+  .callout-warn p { color: var(--ink-mid); max-width: none; font-size: 14.5px; margin: 0; }
+  .callout-warn .section-label { margin-bottom: 8px; }
+
+  /* STRENGTH / WEAKNESS 2-COL */
+  .sw-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin-top: 32px;
+  }
+  .sw-col {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 28px 28px 32px;
+  }
+  .sw-col:first-child { border-radius: 8px 0 0 8px; }
+  .sw-col:last-child  { border-radius: 0 8px 8px 0; }
+  .sw-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 16px;
+  }
+  .sw-item {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 14.5px;
+    color: var(--ink-mid);
+    line-height: 1.55;
+  }
+  .sw-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .sw-item strong { color: var(--ink); font-weight: 500; display: block; margin-bottom: 4px; font-size: 14px; }
+
+  /* PHASE TABLE */
+  .phase-table {
+    margin-top: 36px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .phase-row {
+    display: grid;
+    grid-template-columns: 180px 1fr 1fr 1fr;
+    border-bottom: 1px solid var(--border);
+  }
+  .phase-row:last-child { border-bottom: none; }
+  .phase-row.header { background: var(--bg-card); }
+  .phase-cell {
+    padding: 20px 20px;
+    font-size: 13.5px;
+    color: var(--ink-mid);
+    border-right: 1px solid var(--border);
+    line-height: 1.55;
+  }
+  .phase-cell:last-child { border-right: none; }
+  .phase-row.header .phase-cell {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    padding: 14px 20px;
+    display: flex; align-items: center; gap: 7px;
+  }
+  .phase-cell strong { color: var(--ink); font-weight: 500; display: block; margin-bottom: 5px; }
+  .phase-cell .phase-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--ink);
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  /* INTENSITY BAR */
+  .intensity {
+    display: flex;
+    gap: 3px;
+    margin-top: 8px;
+  }
+  .bar {
+    height: 3px;
+    border-radius: 2px;
+    flex: 1;
+    background: var(--border-mid);
+  }
+  .bar.on { background: var(--ink); }
+
+  /* DIVIDER */
+  .divider { width: 48px; height: 1px; background: var(--border); margin: 52px 0; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  footer p {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-light);
+    letter-spacing: 0.06em;
+    margin: 0;
+    max-width: none;
+  }
+
+  @media (max-width: 700px) {
+    main { padding: 48px 20px 80px; }
+    header { padding: 52px 20px 44px; }
+    nav { padding: 0 12px; }
+    footer { padding: 24px 20px; flex-direction: column; align-items: flex-start; }
+    .founder-grid { grid-template-columns: 1fr; }
+    .founder-col:first-child { border-radius: 8px 8px 0 0; }
+    .founder-col:last-child  { border-radius: 0 0 8px 8px; }
+    .pattern-list li { grid-template-columns: 1fr; gap: 6px; }
+    .compare-row { grid-template-columns: 1fr; }
+    .compare-cell { border-right: none; border-bottom: 1px solid var(--border); }
+    .compare-cell:last-child { border-bottom: none; }
+    .sw-grid { grid-template-columns: 1fr; }
+    .sw-col:first-child { border-radius: 8px 8px 0 0; }
+    .sw-col:last-child { border-radius: 0 0 8px 8px; }
+    .phase-row { grid-template-columns: 1fr; }
+    .phase-cell { border-right: none; border-bottom: 1px solid var(--border); }
+    .phase-cell:last-child { border-bottom: none; }
+    .callout { padding: 28px 22px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-label">New Radicle · Co-Founder Pattern Analysis · March 2026</div>
+  <h1>Three founders. <em>One operating system.</em></h1>
+  <p class="header-sub">Cross-referenced from "How Rebecca Thinks", "How I Think" (Johny), and "How Kelly Thinks." Five questions: how each pair fits together, where the team is strong, where it's exposed, and which company phases each person is built for.</p>
+  <div class="founder-pills">
+    <div class="pill"><span class="pill-dot r"></span>Rebecca</div>
+    <div class="pill"><span class="pill-dot j"></span>Johny</div>
+    <div class="pill"><span class="pill-dot k"></span>Kelly</div>
+  </div>
+</header>
+
+<nav>
+  <span onclick="document.getElementById('profiles').scrollIntoView({behavior:'smooth'})">Profiles</span>
+  <span onclick="document.getElementById('pairs').scrollIntoView({behavior:'smooth'})">Pair Dynamics</span>
+  <span onclick="document.getElementById('team-strengths').scrollIntoView({behavior:'smooth'})">Team Strengths</span>
+  <span onclick="document.getElementById('team-weaknesses').scrollIntoView({behavior:'smooth'})">Blind Spots</span>
+  <span onclick="document.getElementById('phases').scrollIntoView({behavior:'smooth'})">Company Phases</span>
+  <span onclick="document.getElementById('protocols').scrollIntoView({behavior:'smooth'})">Protocols</span>
+</nav>
+
+<main>
+
+  <!-- PROFILES -->
+  <section id="profiles">
+    <div class="section-label">00 — Who Each Person Is</div>
+    <h2>The <em>one-line version</em> of each founder</h2>
+    <p>Before the comparisons: a grounded summary of each person's actual cognitive signature, drawn from their own docs.</p>
+
+    <div class="founder-grid">
+      <div class="founder-col">
+        <div class="founder-name"><span class="dot dot-r"></span>Rebecca</div>
+        <h3>Source-first, bottom-up architect</h3>
+        <p>Goes to the raw material before forming positions. Sequential, deep processor. Builds mental models from foundational elements rather than accepting existing frameworks. Perfects the vessel — precision and architecture before features. Once convinced, ships confidently.</p>
+      </div>
+      <div class="founder-col">
+        <div class="founder-name"><span class="dot dot-j"></span>Johny</div>
+        <h3>Wide-range synthesizer and compressor</h3>
+        <p>Runs 5–8 parallel workstreams simultaneously. Maps exhaustive terrain, then compresses hard — 50:1 research-to-output ratios. Sees everything as connected. Needs constraints to compress efficiently. Cross-domain leap is where he finds the value.</p>
+      </div>
+      <div class="founder-col">
+        <div class="founder-name"><span class="dot dot-k"></span>Kelly</div>
+        <h3>Systems thinker who leads with instinct</h3>
+        <p>Knows what she thinks before she can say why. Doesn't commit until she's built the scaffolding — research, comparable models, framework. Thinks in architectures, not tasks. Finds the relational layer under every structural question. Once she commits, she doesn't relitigate.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAIR DYNAMICS -->
+  <section id="pairs">
+    <div class="section-label">01 — Pair Dynamics</div>
+    <h2>How each pair <em>fits together</em></h2>
+
+    <p>Three pairs worth understanding independently: Rebecca × Johny (the technical and strategic core), Kelly × Johny (the synthesis and systems pair), and Rebecca × Kelly (the precision and architecture pair).</p>
+
+    <!-- REBECCA × JOHNY -->
+    <div class="callout-warn" style="margin-top:40px;">
+      <div class="section-label">Rebecca × Johny</div>
+      <h3>The clearest division of labor on the team</h3>
+      <p>Johny maps the landscape and compresses; Rebecca verifies the synthesis against source material and stress-tests it. He needs constraints to compress faster — she's the person who provides them ("the audience is a 60-year-old family office CIO"). She needs source material, not summaries — he produces it at scale. Primary friction: both hold things open looking for blind spots. Velocity vs. completeness is the named risk. Requires an explicit norm around 70% vs 95% decisions.</p>
+    </div>
+
+    <!-- KELLY × JOHNY -->
+    <div class="callout-warn">
+      <div class="section-label">Kelly × Johny</div>
+      <h3>Similar instincts, very different processing styles</h3>
+      <p>Both see patterns across domains. Both decompose before deciding. Both think in systems. But Kelly processes sequentially through her 6-phase cycle (Orient → Sense-check → Research → Synthesize → Pressure-test → Commit), while Johny runs multiple parallel expansions and compressions. Kelly commits cleanly at the end of her process; Johny loops back through the second expansion. Risk: Johny still exploring when Kelly is ready to execute. Strength: Kelly's "what's actually being decided here?" orientation can snap Johny's expansive framing into the right question fast.</p>
+    </div>
+
+    <!-- REBECCA × KELLY -->
+    <div class="callout-warn">
+      <div class="section-label">Rebecca × Kelly</div>
+      <h3>The precision pair — strongest on architecture and legibility</h3>
+      <p>Both demand structural integrity. Kelly decomposes the decision architecture before answering; Rebecca builds mental models from foundational elements before forming positions. Both are perfectionists about the vessel. Both push back on confident answers that don't pass their smell test. Risk: two people who both want to get it right before moving — without Johny or an external deadline, they can extend the research phase past its useful point. Strength: when they agree, the output is genuinely institutional-grade.</p>
+    </div>
+
+    <!-- COMPARISON TABLE -->
+    <div style="margin-top:48px;">
+      <div class="section-label">All Three — Side by Side</div>
+      <div class="compare-table">
+        <div class="compare-row header">
+          <div class="compare-cell" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-light);padding:14px 20px;">Dimension</div>
+          <div class="compare-cell"><span class="dot dot-r" style="width:6px;height:6px;border-radius:50%;background:#A89B8C;display:inline-block;"></span>Rebecca</div>
+          <div class="compare-cell"><span class="dot dot-j" style="width:6px;height:6px;border-radius:50%;background:#C4B89A;display:inline-block;"></span>Johny</div>
+          <div class="compare-cell"><span class="dot dot-k" style="width:6px;height:6px;border-radius:50%;background:#8CA89B;display:inline-block;"></span>Kelly</div>
+        </div>
+        <div class="compare-row">
+          <div class="compare-cell" style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:.06em;color:var(--ink-light);text-transform:uppercase;">Entry mode</div>
+          <div class="compare-cell">Source material first. Read the raw before building the model.</div>
+          <div class="compare-cell">Wide terrain mapping. Parallel exploration, then compress.</div>
+          <div class="compare-cell">Decompose the question first. What are we actually deciding?</div>
+        </div>
+        <div class="compare-row">
+          <div class="compare-cell" style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:.06em;color:var(--ink-light);text-transform:uppercase;">Processing</div>
+          <div class="compare-cell">Sequential. Deep, protected focus. One thing at a time.</div>
+          <div class="compare-cell">Parallel. 5–8 simultaneous workstreams. Cross-pollination as method.</div>
+          <div class="compare-cell">Sequential 6-phase cycle. Instinct → research → framework → commit.</div>
+        </div>
+        <div class="compare-row">
+          <div class="compare-cell" style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:.06em;color:var(--ink-light);text-transform:uppercase;">Decision style</div>
+          <div class="compare-cell">Build upward from source. Position emerges from the model.</div>
+          <div class="compare-cell">Eliminate via "what's missing?" Pressure from outside in.</div>
+          <div class="compare-cell">Instinct as hypothesis, tested via research. Gut → validate → commit.</div>
+        </div>
+        <div class="compare-row">
+          <div class="compare-cell" style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:.06em;color:var(--ink-light);text-transform:uppercase;">Output mode</div>
+          <div class="compare-cell">Precise, architecturally sound. Perfectionist. Ships clean.</div>
+          <div class="compare-cell">Dense, compressed synthesis. Cross-domain insight. Institutionally rigorous.</div>
+          <div class="compare-cell">Systems architecture. Framework-first. More comprehensive than requested.</div>
+        </div>
+        <div class="compare-row">
+          <div class="compare-cell" style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:.06em;color:var(--ink-light);text-transform:uppercase;">Commitment pattern</div>
+          <div class="compare-cell">Once convinced, ships confidently. Needs to build conviction first.</div>
+          <div class="compare-cell">Loops back. Second expansion before stable output. Harder to lock.</div>
+          <div class="compare-cell">Long ramp-up, then full commitment. Doesn't relitigate once decided.</div>
+        </div>
+        <div class="compare-row">
+          <div class="compare-cell" style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:.06em;color:var(--ink-light);text-transform:uppercase;">Relational layer</div>
+          <div class="compare-cell">Values precision in communication. Notices when things are said imprecisely.</div>
+          <div class="compare-cell">Collaborative. Needs co-founders to hold audience translation role.</div>
+          <div class="compare-cell">Explicitly looks for the human question under the structural one. Most relational of the three.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAM STRENGTHS -->
+  <section id="team-strengths">
+    <div class="section-label">02 — What This Team Does Well</div>
+    <h2>Team <em>strengths</em></h2>
+    <p>These are structural advantages that emerge from the specific combination of all three. Not individual strengths — things the team can do that none of them could do as well alone.</p>
+
+    <ul class="pattern-list">
+      <li>
+        <div class="pattern-key">Full-stack due diligence</div>
+        <div class="pattern-val">Johny maps the landscape exhaustively. Rebecca verifies the synthesis against source. Kelly decomposes the decision architecture underneath. Together, this is a genuinely rigorous process — the kind that produces work that holds up under the scrutiny of the most sophisticated investors and partners. <strong>This is a real competitive advantage for COGS positioning.</strong></div>
+      </li>
+      <li>
+        <div class="pattern-key">Self-correcting on framing</div>
+        <div class="pattern-val">Kelly's first instinct is "what are we actually deciding?" Johny's is "what's missing?" Rebecca's is "have we looked at the source?" Any one of these alone can miss problems. All three together means it's very hard for the team to get stuck answering the wrong question for long.</div>
+      </li>
+      <li>
+        <div class="pattern-key">Architecture → execution loop</div>
+        <div class="pattern-val">Kelly builds the system architecture; Rebecca verifies it structurally from the ground up; Johny compresses it into a form that can be communicated externally. The loop from "what are we actually building?" to "how do we tell this story?" has all three stages covered.</div>
+      </li>
+      <li>
+        <div class="pattern-key">Prototype to think</div>
+        <div class="pattern-val">All three share some version of "build to clarify, not plan then build." This means the team won't get stuck in extended pre-planning phases. They'll move to tangible artifacts quickly, which is how the best early-stage companies operate.</div>
+      </li>
+      <li>
+        <div class="pattern-key">Stress-testing as culture</div>
+        <div class="pattern-val">Johny looks for what's missing. Kelly pressure-tests against the strongest counter-argument she can find. Rebecca builds conviction by going to source material. This team will surface the hard objections internally before anyone else does — which is enormously valuable in a capital-raising environment.</div>
+      </li>
+      <li>
+        <div class="pattern-key">Instinct + validation loop</div>
+        <div class="pattern-val">Kelly leads with instinct but doesn't trust it until validated. Johny's cross-domain leaps generate hypotheses fast. Rebecca's source-first process validates or challenges them. This is a generative loop: fast conjecture, rigorous testing, clean output.</div>
+      </li>
+    </ul>
+  </section>
+
+  <!-- TEAM WEAKNESSES -->
+  <section id="team-weaknesses">
+    <div class="section-label">03 — Where The Team Is Exposed</div>
+    <h2>Team <em>blind spots</em></h2>
+    <p>These are structural vulnerabilities — patterns that show up because of how all three people are wired, not in spite of it.</p>
+
+    <div class="sw-grid">
+      <div class="sw-col">
+        <div class="sw-label">The core risks</div>
+        <div class="sw-item">
+          <strong>Over-researching medium-stakes decisions</strong>
+          All three have high research instincts and perfectionist standards. Kelly says it directly: her research phase "is most likely to need a deadline imposed on it." Rebecca's process requires deep intake before convergence. Johny's expansions loop. The team will tend to apply 95% process to 70% decisions. Nobody has a natural shortcut instinct.
+        </div>
+        <div class="sw-item">
+          <strong>Mistaking process for progress</strong>
+          Kelly named this about herself: "designing how to make a decision can feel like making the decision." The founders' alignment package she references — four deliverables for a conversation between three people who already trust each other — is a team-level version of this. Worth watching at the group level.
+        </div>
+        <div class="sw-item">
+          <strong>No natural velocity driver</strong>
+          None of the three founders is wired as a "ship it now, fix it later" operator. Rebecca needs conviction first. Johny loops back. Kelly has a long ramp-up. This is fine for quality. It means the team will need external pressure (investor timelines, customer commitments, deadlines) to maintain shipping tempo at the right stages.
+        </div>
+      </div>
+      <div class="sw-col">
+        <div class="sw-label">The subtler risks</div>
+        <div class="sw-item">
+          <strong>Under-communicating phase status</strong>
+          Kelly explicitly says she can under-communicate how far along she is. Johny's cycles aren't always legible to others. Rebecca has extended deep-intake phases that look like silence. Three people who all process privately and signal convergence inconsistently — the team needs an explicit "where are you on this?" norm, not as a courtesy but as an operating protocol.
+        </div>
+        <div class="sw-item">
+          <strong>No natural external translator</strong>
+          Johny asks Rebecca and Kelly to hold the "which connections to make explicit for which audience?" frame. Kelly thinks in systems that come out more comprehensive than requested. Rebecca builds architecturally. The team is extremely good at internal rigor and not naturally wired for simplification-for-external-audiences. Customer discovery and sales positioning will require explicit effort.
+        </div>
+        <div class="sw-item">
+          <strong>Everything connects to everything</strong>
+          Johny's thesis, Kelly's systems orientation, Rebecca's bottom-up integration — all three naturally see more connections than a customer or investor needs to see. The team can build a framework so complete it becomes hard to enter. Someone needs to hold the "what is the one thing?" question in customer-facing moments.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPANY PHASES -->
+  <section id="phases">
+    <div class="section-label">04 — Leadership Through Company Stages</div>
+    <h2>Who leads <em>when</em></h2>
+    <p>This isn't about who's in charge overall — it's about which cognitive profiles are most load-bearing at each phase of a company's development. The honest version of this is useful for role design, not just self-awareness.</p>
+
+    <div class="phase-table">
+      <div class="phase-row header">
+        <div class="phase-cell" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-light);padding:14px 20px;">Phase</div>
+        <div class="phase-cell"><span class="dot dot-r" style="width:6px;height:6px;border-radius:50%;background:#A89B8C;display:inline-block;"></span>Rebecca</div>
+        <div class="phase-cell"><span class="dot dot-j" style="width:6px;height:6px;border-radius:50%;background:#C4B89A;display:inline-block;"></span>Johny</div>
+        <div class="phase-cell"><span class="dot dot-k" style="width:6px;height:6px;border-radius:50%;background:#8CA89B;display:inline-block;"></span>Kelly</div>
+      </div>
+
+      <div class="phase-row">
+        <div class="phase-cell">
+          <span class="phase-name">0 → 1<br>Thesis formation</span>
+          <div class="intensity"><div class="bar on"></div><div class="bar on"></div><div class="bar on"></div><div class="bar on"></div><div class="bar"></div></div>
+        </div>
+        <div class="phase-cell">Strong. Source-first research builds the most defensible thesis. Precision in naming means the framing holds under scrutiny. Catches weak assumptions early.</div>
+        <div class="phase-cell"><strong>Peak phase.</strong> The exhaustive mapping, cross-domain synthesis, and compression to a tight thesis is exactly what this stage requires. Maximum leverage.</div>
+        <div class="phase-cell">Strong. The "what are we actually deciding?" instinct is exactly right for thesis formation. Systems thinking builds the architecture that everything else sits on.</div>
+      </div>
+
+      <div class="phase-row">
+        <div class="phase-cell">
+          <span class="phase-name">1 → 10<br>Early product &amp; first customers</span>
+          <div class="intensity"><div class="bar on"></div><div class="bar on"></div><div class="bar on"></div><div class="bar on"></div><div class="bar on"></div></div>
+        </div>
+        <div class="phase-cell"><strong>Peak phase.</strong> Technical architecture, data infrastructure, prototype-to-think orientation. Rebecca builds the thing that proves the thesis. Precision at this stage matters enormously.</div>
+        <div class="phase-cell">Strong. Can compress the "what customers actually need" research quickly. Cross-domain leaps find the non-obvious customer angles. Risk: needs external constraints to ship iterations fast enough.</div>
+        <div class="phase-cell"><strong>Peak phase.</strong> The instinct + research + commit cycle is exactly right for product-market fit discovery. Kelly's ability to hold the relational layer — what does the customer actually need? — is critical here.</div>
+      </div>
+
+      <div class="phase-row">
+        <div class="phase-cell">
+          <span class="phase-name">10 → 50<br>Repeatable motion &amp; hiring</span>
+          <div class="intensity"><div class="bar on"></div><div class="bar on"></div><div class="bar on"></div><div class="bar"></div><div class="bar"></div></div>
+        </div>
+        <div class="phase-cell">Strong on process and infrastructure design. May feel friction with the operational repetition this phase requires. Better as architect of the system than as daily operator of it.</div>
+        <div class="phase-cell">Will feel most stretched here. Repeatable processes and operational consistency aren't natural fits for a parallel-processing, synthesis-oriented mind. Needs strong operators around him.</div>
+        <div class="phase-cell"><strong>Peak phase.</strong> Kelly's systems thinking, org design instinct, and relational depth all become load-bearing. The entity design, team structure, and cultural architecture is where she's strongest. Her commit-and-don't-relitigate pattern stabilizes the org at this stage.</div>
+      </div>
+
+      <div class="phase-row">
+        <div class="phase-cell">
+          <span class="phase-name">50 → 200<br>Scaling &amp; institutional positioning</span>
+          <div class="intensity"><div class="bar on"></div><div class="bar on"></div><div class="bar on"></div><div class="bar on"></div><div class="bar"></div></div>
+        </div>
+        <div class="phase-cell">Strong. Technical credibility and architectural precision become the institutional trust signals at this stage. Rebecca's "institutional grade or nothing" standard is exactly what external stakeholders are evaluating.</div>
+        <div class="phase-cell"><strong>Peak phase (again).</strong> The external-facing compression — taking the full complexity of what the company does and making it legible to sophisticated investors, partners, and ecosystem — is Johny's core capability.</div>
+        <div class="phase-cell">Strong. The relational depth and systems orientation helps navigate complex stakeholder environments. May need to delegate more tactical operations to preserve strategic capacity.</div>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top:44px;">
+      <div class="section-label">The honest read</div>
+      <h3>Right now, all three are in their peak phases at the same time.</h3>
+      <p>0→1 thesis formation and 1→10 early product are exactly where this team's cognitive profiles are most load-bearing. Johny's synthesis capacity, Rebecca's technical and architectural precision, and Kelly's instinct-driven systems thinking are all maximally useful right now. <strong>The challenge isn't capability — it's coordination velocity.</strong> The team needs to build explicit protocols for the 10→50 phase before it arrives, because that's the phase where none of the three is naturally wired for the primary demands.</p>
+    </div>
+  </section>
+
+  <!-- PROTOCOLS -->
+  <section id="protocols">
+    <div class="section-label">05 — Operating Protocols</div>
+    <h2>What to <em>actually do</em> about this</h2>
+    <p>Naming the patterns is only useful if it generates specific behavior changes. These are the concrete norms worth building into how the team operates — not aspirational, just mechanical.</p>
+
+    <ul class="pattern-list">
+      <li>
+        <div class="pattern-key">Name your phase out loud</div>
+        <div class="pattern-val">Johny is mid-expansion or compressing. Kelly is exploring or converging. Rebecca is in deep intake or ready to decide. These are different states that require different responses from co-founders. The team should name them explicitly in real time — "I'm still in intake on this" or "I'm at convergence, I need real dialogue" — rather than assuming the other person can read it. Kelly says she's working on this. Make it a team norm.</div>
+      </li>
+      <li>
+        <div class="pattern-key">70% vs 95% flag</div>
+        <div class="pattern-val">Before going into research mode on any decision, name the stakes: is this a 70% decision (needs to be good enough, time matters more) or a 95% decision (needs to be right, quality matters more)? The team has no natural shortcut instinct — so the shortcut has to be procedural. Kelly explicitly says "tell her when the team has researched enough." She'll trust the read. Build a norm where any founder can call this.</div>
+      </li>
+      <li>
+        <div class="pattern-key">Give Johny constraints early</div>
+        <div class="pattern-val">Johny's compression quality is directly tied to the specificity of the brief. "What's the audience?" "What decision does this output need to enable?" "What's the format?" Providing these upfront — rather than waiting for a draft and reacting — saves a full expansion/compression cycle and produces better output.</div>
+      </li>
+      <li>
+        <div class="pattern-key">Kelly holds the customer frame</div>
+        <div class="pattern-val">When Johny and Rebecca are both inside a thesis (which will happen often), Kelly's structural role is to hold the external-facing question: "Would a customer understand this?" "What does this actually solve for them?" This isn't a constraint on the thinking — it's the translation layer the team is structurally missing without it.</div>
+      </li>
+      <li>
+        <div class="pattern-key">Rebecca goes to source, others give her the source</div>
+        <div class="pattern-val">Rebecca will find the original data anyway. Giving her source material rather than summaries saves time and produces a cleaner position faster. When Johny does research, packaging it in a navigable form (not a 25,000-word brief without structure) is worth the extra 20 minutes.</div>
+      </li>
+      <li>
+        <div class="pattern-key">Start building before you're ready</div>
+        <div class="pattern-val">All three share the "prototype to think" instinct — but all three also have perfectionist tendencies that can delay the first tangible artifact. The team should use this shared belief as a forcing function: when a conversation is going in circles, build something small and ugly and use it to move the thinking forward. The artifact will do what the conversation can't.</div>
+      </li>
+    </ul>
+
+    <div class="callout" style="margin-top:48px;">
+      <div class="section-label">The closing note</div>
+      <h3>The team's thesis and its execution risk are the same thing.</h3>
+      <p>All three founders believe that the quality of the thinking — the decomposition, the architecture, the precision — is load-bearing. They're right. That rigor is what will make COGS credible to the most sophisticated audiences. <strong>The risk is that the same instinct that produces extraordinary work also produces the conditions for missed windows.</strong> The team knows this about themselves. The question is whether they build explicit norms around it, or rely on good intentions. Good intentions haven't worked for any founding team at speed. The norms will.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>Rebecca × Johny × Kelly · New Radicle · March 2026</p>
+  <p>Cross-referenced from all three "How I Think" docs</p>
+</footer>
+
+</body>
+</html>
