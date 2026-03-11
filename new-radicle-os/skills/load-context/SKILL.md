@@ -21,64 +21,112 @@ The team's shared knowledge base lives in Notion:
 **Schema:**
 - `Item Name` (title)
 - `Category` (multi_select): Industry knowledge share, Business operations, Customer research, Planning, Product
+- `Context System Type` (select): Exploration, Decision, Reference, Artifact
 - `Description` (text)
 - `Date` (date)
 - `Created by` (person)
+- `Reviewers` (person)
 - `Link` (text)
+- `Tags` (relation)
+- `Type` (relation)
+- `File Upload` (file)
 - `Created time` (auto)
+- `Last updated time` (auto)
+- `Last edited by` (person)
+
+### Context System Types — What They Mean
+
+These types determine document priority for context loading:
+
+- **Reference** — Foundational, long-lived docs: architecture, specs, frameworks. These are the HIGHEST priority for session priming because they define how the company works.
+- **Decision** — Recorded decisions with rationale. Important for understanding why things are the way they are.
+- **Artifact** — Concrete outputs: decks, specs, tools, templates. Useful when the user is about to build something similar.
+- **Exploration** — Research, brainstorms, early thinking. Lower priority for priming but valuable for topic-specific context.
 
 ## How It Works
+
+### Step 0: Always Start With a Search
+
+Before doing anything else, run a search against the Document Hub to see what's there. Use the `notion-search` tool scoped to the data source:
+
+```
+notion-search with:
+  query: [relevant keywords OR broad term like "architecture" or "strategy"]
+  data_source_url: "collection://2a07bdc3-cd5f-803a-b047-000b336435fe"
+```
+
+This gives you the lay of the land. From here, branch into the appropriate mode.
 
 ### Mode 1: General Briefing ("catch me up", "what's the latest")
 
 When the user wants a general overview of what the team has been working on:
 
-1. **Query the Document Hub** using `notion-search` for recent items. Focus on the last 2-3 weeks of activity.
+1. **Search broadly** — run 2-3 searches with different queries to cover recent activity:
+   - Search for recent items (the search results include timestamps — focus on last 2-3 weeks)
+   - If initial results are thin, try broader terms: "update", "new", or category names
 
-2. **Scan the results** and group them by Category. For each recent item, note the title, description, who created it, and when.
+2. **Fetch the 3-5 most recent/relevant pages** using `notion-fetch` to get actual content (not just titles).
 
-3. **Present a concise briefing** organized by theme, not chronologically. Something like:
+3. **Present a concise briefing** organized by theme, not chronologically:
 
    "Here's what's been active in the Document Hub recently:
 
    **Product:** [2-3 items with one-line summaries]
    **Business Operations:** [1-2 items]
-   **Client Research:** [1-2 items if any]
+   **Customer Research:** [1-2 items if any]
 
    Want me to pull up any of these in detail?"
 
-4. **Offer to go deeper.** If the user wants to read a specific doc, use `notion-fetch` to pull the full page content and summarize it or present it directly.
+4. **Offer to go deeper.** If the user wants to read a specific doc, use `notion-fetch` on that page.
 
 ### Mode 2: Topic-Specific Context ("I need to know about our client landscape")
 
 When the user needs context on a specific topic:
 
-1. **Search the Document Hub** using `notion-search` with the relevant keywords scoped to the data source.
+1. **Search the Document Hub** using `notion-search` with targeted keywords scoped to the data source.
 
 2. **Pull the most relevant 2-3 pages** using `notion-fetch`. Read their full content.
 
 3. **Synthesize into a briefing.** Don't just list the docs — extract the key knowledge and present it as a coherent summary. The user shouldn't have to read through multiple pages.
 
-4. **Cite your sources.** At the end, link to the Notion pages so the user can go deeper if needed.
+4. **Cite your sources.** At the end, link to the Notion pages so the user can go deeper.
 
 ### Mode 3: Session Priming ("I'm about to work on X, load the relevant context")
 
-When the user is about to start a task and wants Claude loaded with the right background:
+This is the most important mode and the one that needs to be most reliable. When the user is about to start a task and wants Claude loaded with the right background:
 
 1. **Understand the task** — what kind of work is the user about to do? Client-facing? Product? Strategy?
 
-2. **Map to relevant categories** — use the task description to identify which Document Hub categories are most relevant.
+2. **Always start with Reference docs** — search for foundational documents first. These include architecture docs, company OS docs, and core frameworks. Run:
+   - `notion-search` with query "architecture" or "company OS" scoped to the data source
+   - `notion-search` with query related to the user's specific task domain
 
-3. **Pull and internalize** — fetch the 3-5 most relevant documents. Read them fully. Don't summarize back to the user unless asked — just confirm "I've read through [doc titles] and I'm up to speed."
+3. **Fetch and read 3-5 documents** using `notion-fetch`. Prioritize in this order:
+   - Reference docs relevant to the task domain
+   - Recent Decision docs (last 30 days) in the relevant category
+   - Artifacts that the user might build on
+   - Explorations only if directly relevant
 
-4. **Proceed with the task.** The user's next request should benefit from the context you just loaded.
+4. **Confirm briefly** — don't recite everything back. Just say:
+   "I've loaded context from [doc titles]. I'm up to speed on [1-sentence summary of what you now understand]. Ready to go."
+
+5. **Proceed with the task.** The user's next request should benefit from the context you just loaded.
+
+### Fallback: If Search Returns Nothing Useful
+
+If `notion-search` comes back empty or with irrelevant results:
+- Try different search terms — use category names ("Product", "Business operations"), key concepts ("architecture", "strategy", "client"), or known doc titles
+- Try a broader search without the data_source_url filter to check if content lives elsewhere in the workspace
+- If still nothing: tell the user what you searched for and that the Document Hub may not have content on that topic yet. Don't silently proceed without context.
 
 ## What NOT To Do
 
-- Don't load everything. The Document Hub has 60+ items. Be selective based on what's relevant.
-- Don't make the user wait through a long summary if they just want to get to work. In Mode 3, a brief confirmation is enough.
-- Don't present raw database query results. The user wants knowledge, not a table of Notion properties.
-- Don't load context that's clearly stale (6+ months old) unless specifically relevant to the current task.
+- **Don't skip the search step.** Even if you think you know what's in the hub, always query it. Content changes between sessions.
+- **Don't load everything.** The Document Hub has 60+ items. Be selective based on what's relevant.
+- **Don't make the user wait through a long summary if they just want to get to work.** In Mode 3, a brief confirmation is enough.
+- **Don't present raw database query results.** The user wants knowledge, not a table of Notion properties.
+- **Don't load context that's clearly stale (6+ months old)** unless specifically relevant to the current task.
+- **Don't silently fail.** If you can't find relevant context, say so. The user would rather know you tried and came up empty than assume you're primed when you're not.
 
 ## Tone
 
