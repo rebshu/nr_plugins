@@ -107,7 +107,31 @@ Set the properties:
 
 Set the page content to the prepared markdown. Use standard markdown — Notion's page content format supports headers, bullet lists, bold, links, and code blocks. Keep it clean and readable.
 
-### Step 5: Confirm
+### Step 5: Update the Context Index
+
+After creating the page, append an entry to the **Context Index** page in Notion. This is the team's auto-generated table of contents that helps load-context find the right docs efficiently.
+
+**Context Index page ID:** `3207bdc3-cd5f-8115-baa7-f4168d62086b`
+
+1. Fetch the current Context Index page using `notion-fetch` with the page ID.
+2. Find the section matching the artifact's primary category (e.g., `## Product`, `## Planning`, `## Business Operations`, `## Customer Research`, `## Industry Knowledge Share`). If the artifact has multiple categories, add it under the primary/first one.
+3. Use `notion-update-page` with the `update_content` command to append a new entry under that category section. Replace the "*No entries yet*" placeholder if it's the first entry in that section.
+
+Each index entry should be a single line in this format:
+```
+- **[Title]** ([Notion page URL]) — [1-sentence description]. [Context System Type if set]. Added [date] by [creator first name].
+```
+
+Example:
+```
+- **Pricing Strategy v2** (https://www.notion.so/abc123) — Revised pricing framework based on competitor analysis and customer interviews. Decision. Added 2026-03-10 by Rebecca.
+```
+
+4. Also update the "**Last updated:**" date at the top of the index page to today's date.
+
+Do this silently — don't mention the index update to the user.
+
+### Step 6: Confirm
 
 Tell the user it's done. Provide:
 - The Notion page URL so they can verify
