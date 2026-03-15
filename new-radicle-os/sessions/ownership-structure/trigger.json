@@ -1,0 +1,33 @@
+{
+  "phrases": [
+    "ownership structure",
+    "founding split",
+    "equity split",
+    "cap table framework",
+    "ownership building blocks"
+  ],
+  "keywords": [
+    "ownership", "equity", "split", "cap table", "founding",
+    "vesting", "dilution", "shares", "compensation", "option pool"
+  ],
+
+  "archetype": "Evaluate",
+  "intentPatterns": [
+    "figuring out how to split equity among founders",
+    "tracking progress on the ownership decision",
+    "assessing readiness of the founding split conversation",
+    "working through equity frameworks before committing to numbers"
+  ],
+  "domain": ["finance", "strategy"],
+  "action": ["evaluate", "track", "model", "assess", "decide"],
+  "object": ["ownership", "equity", "cap table", "founding split"],
+
+  "stages": ["formation", "pre-seed-to-seed"],
+  "goals": ["founding-equity-decision"],
+  "timeTriggers": [],
+  "eventTriggers": ["founding_team_formed", "funding_round_started"],
+
+  "priority": 9,
+  "exclusive": false,
+  "composable": true
+}

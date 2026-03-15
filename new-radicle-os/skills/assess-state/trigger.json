@@ -1,0 +1,44 @@
+{
+  "phrases": [
+    "where are we on",
+    "where do we stand",
+    "assess where we stand",
+    "how ready are we",
+    "score our readiness",
+    "what's the status of",
+    "what gaps do we have",
+    "what's missing",
+    "how far along are we"
+  ],
+  "keywords": [
+    "assess", "readiness", "status", "gaps", "state",
+    "where we stand", "how ready", "coverage", "progress", "score"
+  ],
+
+  "archetype": "Orient",
+  "intentPatterns": [
+    "evaluating current readiness before making a decision",
+    "mapping existing work against a framework to find gaps",
+    "scoring progress on a multi-part initiative",
+    "understanding what's been done and what's still needed",
+    "getting a structured status check on a domain or project"
+  ],
+  "domain": ["*"],
+  "action": ["assess", "evaluate", "score", "audit", "check", "map"],
+  "object": ["readiness", "state", "progress", "gaps", "status", "coverage"],
+
+  "stages": ["*"],
+  "goals": ["*"],
+  "timeTriggers": [],
+  "eventTriggers": ["session_started_with_framework", "context_loaded", "periodic_review"],
+
+  "priority": 9,
+  "exclusive": false,
+  "composable": true,
+  "proactive": true,
+  "proactiveConditions": [
+    "a session with a framework-data.json has just loaded context",
+    "user starts a decision-framework session and hasn't assessed state yet",
+    "user asks about progress or readiness in any domain"
+  ]
+}

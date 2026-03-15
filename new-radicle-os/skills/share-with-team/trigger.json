@@ -1,0 +1,43 @@
+{
+  "phrases": [
+    "share this with the team",
+    "push this to the hub",
+    "save this to Notion",
+    "the team should see this",
+    "add this to the knowledge base",
+    "promote this",
+    "log this",
+    "publish this",
+    "send this to the doc hub"
+  ],
+  "keywords": [
+    "share", "promote", "publish", "hub", "notion",
+    "knowledge base", "team", "log", "save", "doc hub"
+  ],
+
+  "archetype": "Share",
+  "intentPatterns": [
+    "making a session output available to the rest of the team",
+    "saving a decision or artifact to the shared knowledge base",
+    "promoting research findings into the Document Hub",
+    "logging a deliverable so others can reference it later"
+  ],
+  "domain": ["*"],
+  "action": ["share", "publish", "save", "promote", "log"],
+  "object": ["artifact", "decision", "research", "deliverable", "document"],
+
+  "stages": ["*"],
+  "goals": ["*"],
+  "timeTriggers": [],
+  "eventTriggers": ["session_completed", "artifact_created", "decision_made", "document_finalized"],
+
+  "priority": 8,
+  "exclusive": false,
+  "composable": true,
+  "proactive": true,
+  "proactiveConditions": [
+    "a session has produced a substantial artifact or decision",
+    "a building block has been completed that others would benefit from",
+    "a session reaches its final workflow step"
+  ]
+}

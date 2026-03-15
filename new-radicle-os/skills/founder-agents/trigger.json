@@ -1,0 +1,46 @@
+{
+  "phrases": [
+    "ask Rebecca",
+    "ask Johny",
+    "ask Kelly",
+    "what would Rebecca think",
+    "what would Johny think",
+    "what would Kelly think",
+    "founder panel",
+    "simulate founders",
+    "run this by the team",
+    "founder review",
+    "founder meeting"
+  ],
+  "keywords": [
+    "Rebecca", "Johny", "Kelly", "founder", "panel",
+    "perspective", "simulate", "voice", "co-founder", "team review"
+  ],
+
+  "archetype": "Evaluate",
+  "intentPatterns": [
+    "pressure-testing a decision through a co-founder's lens",
+    "getting a specific founder's perspective on a proposal",
+    "drafting communications in a founder's voice",
+    "running a panel review through multiple founders",
+    "simulating how a founder meeting would go on this topic"
+  ],
+  "domain": ["strategy", "product", "people", "narrative", "finance"],
+  "action": ["evaluate", "review", "draft", "simulate", "pressure-test"],
+  "object": ["decision", "proposal", "communication", "strategy", "plan"],
+
+  "stages": ["*"],
+  "goals": ["*"],
+  "timeTriggers": [],
+  "eventTriggers": ["decision_checkpoint_reached", "proposal_drafted", "strategy_shift_proposed"],
+
+  "priority": 7,
+  "exclusive": false,
+  "composable": true,
+  "proactive": true,
+  "proactiveConditions": [
+    "a session reaches a decision checkpoint with high-stakes implications",
+    "a proposal or strategy document has been drafted and needs review",
+    "a session's chainSession field points to founder-agents"
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "id": "ownership-structure",
+  "name": "Ownership Structure",
+  "description": "Decompose a founding ownership split into building blocks, track readiness, assess importance, and work through each block systematically.",
+  "version": "1.0.0",
+
+  "triggers": "./trigger.json",
+
+  "intake": {
+    "contextPreload": [
+      { "type": "hub-search", "query": "ownership equity founding split", "categories": ["Planning", "Business operations"] }
+    ],
+    "questions": [
+      {
+        "header": "Focus area",
+        "question": "Which area of the ownership structure do you want to work on?",
+        "options": [
+          { "label": "Foundations", "description": "Vision alignment, founder assessment, roles & decision rights", "setsParam": "focusPhase", "value": 3 },
+          { "label": "Ownership frameworks", "description": "Axes, standards model, triggers, compensation levers", "setsParam": "focusPhase", "value": 4 },
+          { "label": "The decision itself", "description": "Starting split, big win scenario, option pool mechanics", "setsParam": "focusPhase", "value": 5 },
+          { "label": "Review the full map", "description": "Generate or update the ownership dashboard artifact", "setsParam": "focusPhase", "value": 0 }
+        ],
+        "multiSelect": false
+      }
+    ],
+    "skipIf": [
+      { "condition": "user_specified_block_in_trigger", "action": "set_focusPhase_from_context" }
+    ]
+  },
+
+  "workflow": {
+    "steps": [
+      { "id": 1, "name": "Load context", "skill": "load-context", "mode": "priming", "auto": true },
+      { "id": 2, "name": "Assess current state", "description": "Review existing deliverables and score building blocks" },
+      { "id": 3, "name": "Work the focus block", "description": "Facilitate conversation to produce the deliverable", "conditional": "focusPhase != 0" },
+      { "id": 4, "name": "Generate dashboard", "component": "decision-framework", "data": "./framework-data.json", "conditional": "focusPhase == 0 || checkpoint_selected" },
+      { "id": 5, "name": "Share and update", "skill": "share-with-team", "optional": true }
+    ],
+    "checkpoints": [
+      {
+        "afterStep": 3,
+        "header": "Next step",
+        "question": "Block complete. What do you want to do?",
+        "options": [
+          { "label": "Share and continue", "description": "Share to Document Hub and work on next block", "goTo": 5 },
+          { "label": "Founder review", "description": "Run founder panel review on what we just produced", "chainSession": "founder-agents" },
+          { "label": "Update dashboard", "description": "Regenerate the full ownership map with updated scores", "goTo": 4 },
+          { "label": "Done for now", "description": "Save progress and end session", "goTo": "end" }
+        ]
+      }
+    ],
+    "skills": ["load-context", "founder-agents", "share-with-team"]
+  },
+
+  "output": {
+    "artifacts": [
+      { "type": "react", "component": "decision-framework", "filename": "ownership-structure.jsx" }
+    ],
+    "sharePrompt": true,
+    "formatChoice": null
+  },
+
+  "metadata": {
+    "phase": "Evaluate",
+    "context": "Validating",
+    "domain": "Finance",
+    "stages": ["formation", "pre-seed-to-seed"],
+    "goals": ["founding-equity-decision"],
+    "author": "New Radicle",
+    "estimatedDuration": "45-90 min per block, multi-session"
+  }
+}

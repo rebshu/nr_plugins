@@ -1,0 +1,206 @@
+{
+  "title": "Ownership Structure",
+  "subtitle": "All building blocks underlying the founding split decision. Hover any block for detail.",
+  "orgLabel": "NEWRADICLE — INTERNAL · MARCH 2026",
+  "documentIndexUrl": null,
+
+  "scoringViews": [
+    {
+      "id": "readiness",
+      "name": "Where we are",
+      "description": "Color and dots show how far along each building block is — from named only, to drafted, to produced but pending sign-off, to fully complete and aligned.",
+      "scale": [
+        { "value": 1, "label": "Drafted, gaps remain", "color": "#B85C5C", "legendLabel": "Drafted, gaps remain" },
+        { "value": 2, "label": "Produced, pending sign-off", "color": "#C4943D", "legendLabel": "Produced, pending sign-off" },
+        { "value": 3, "label": "Produced, not fully closed", "color": "#4A7A5B", "legendLabel": "Produced, not fully closed" },
+        { "value": 4, "label": "Complete & aligned", "color": "#2D5A3D", "legendLabel": "Complete & aligned" }
+      ]
+    },
+    {
+      "id": "importance",
+      "name": "How important it is",
+      "description": "Color and dots show how much each block matters to the founding split specifically — not in general, but as an input to this particular decision. Critical items are ones where gaps could meaningfully change the number or create regret later.",
+      "scale": [
+        { "value": 1, "label": "Low importance", "color": "#2C3E50", "legendLabel": "Low Importance" },
+        { "value": 2, "label": "Medium importance", "color": "#2C3E50", "legendLabel": "Medium Importance" },
+        { "value": 3, "label": "High importance", "color": "#2C3E50", "legendLabel": "High Importance" },
+        { "value": 4, "label": "Critical to founding split", "color": "#2C3E50", "legendLabel": "Critical to founding split" }
+      ]
+    }
+  ],
+
+  "phases": [
+    {
+      "number": 1,
+      "name": "WHO WE ARE",
+      "blocks": [
+        {
+          "id": "founding-principles",
+          "name": "Founding Principles",
+          "description": "The shared philosophy governing how we work, create, and make decisions together.",
+          "output": "Nine principles across relational, creative, and governance layers — synthesized from individual founder sessions and 31 extracted themes. All three founders aligned.",
+          "documentLinks": [],
+          "scores": { "readiness": 4, "importance": 2 }
+        },
+        {
+          "id": "branding-identity",
+          "name": "Branding & Identity",
+          "description": "Company name, visual identity, and brand positioning.",
+          "output": "",
+          "documentLinks": [],
+          "scores": { "readiness": 3, "importance": 1 }
+        },
+        {
+          "id": "how-we-work-together",
+          "name": "How We Work Together",
+          "description": "Working norms, communication patterns, decision-making processes.",
+          "output": "",
+          "documentLinks": [],
+          "scores": { "readiness": 3, "importance": 2 }
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "name": "HOW WE'RE SET UP",
+      "blocks": [
+        {
+          "id": "entity-structure",
+          "name": "Entity Structure",
+          "description": "Legal entity type, jurisdiction, formation status.",
+          "output": "",
+          "documentLinks": [],
+          "scores": { "readiness": 2, "importance": 3 }
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "name": "FOUNDATIONS FOR THE DECISION",
+      "blocks": [
+        {
+          "id": "vision-alignment",
+          "name": "Vision Alignment",
+          "description": "Shared understanding of where the company is going and what success looks like.",
+          "output": "",
+          "documentLinks": [],
+          "scores": { "readiness": 3, "importance": 4 }
+        },
+        {
+          "id": "founder-assessment",
+          "name": "Founder Assessment",
+          "description": "Each founder's contributions, capabilities, risk tolerance, and commitment level.",
+          "output": "",
+          "documentLinks": [],
+          "scores": { "readiness": 3, "importance": 4 }
+        },
+        {
+          "id": "roles-decision-rights",
+          "name": "Roles & Decision Rights",
+          "description": "Who owns what domains, how decisions get made, authority boundaries.",
+          "output": "",
+          "documentLinks": [],
+          "scores": { "readiness": 2, "importance": 3 }
+        },
+        {
+          "id": "financial-picture",
+          "name": "Financial Picture",
+          "description": "Current financial contributions, runway, personal financial situations.",
+          "output": "",
+          "documentLinks": [],
+          "scores": { "readiness": 1, "importance": 3 }
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "name": "HOW WE THINK ABOUT OWNERSHIP",
+      "blocks": [
+        {
+          "id": "ownership-axes",
+          "name": "Ownership Axes",
+          "description": "The dimensions along which ownership gets evaluated: contribution, risk, opportunity cost, etc.",
+          "output": "",
+          "documentLinks": [],
+          "scores": { "readiness": 3, "importance": 3 }
+        },
+        {
+          "id": "standards-model",
+          "name": "Standards Model",
+          "description": "Industry benchmarks, standard splits, comparable company data.",
+          "output": "",
+          "documentLinks": [],
+          "scores": { "readiness": 3, "importance": 2 }
+        },
+        {
+          "id": "triggers-framework",
+          "name": "Triggers Framework",
+          "description": "Events or milestones that could trigger ownership changes (vesting cliffs, performance, departure).",
+          "output": "",
+          "documentLinks": [],
+          "scores": { "readiness": 3, "importance": 3 }
+        },
+        {
+          "id": "compensation-levers",
+          "name": "Compensation Levers",
+          "description": "Salary, equity, benefits, and how they interact with the ownership split.",
+          "output": "",
+          "documentLinks": [],
+          "scores": { "readiness": 3, "importance": 3 }
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "name": "THE DECISION",
+      "blocks": [
+        {
+          "id": "starting-split",
+          "name": "Starting Split",
+          "description": "The initial equity allocation among founders.",
+          "output": "",
+          "documentLinks": [],
+          "scores": { "readiness": 1, "importance": 4 }
+        },
+        {
+          "id": "big-win-scenario",
+          "name": "The \"Big Win\" Scenario",
+          "description": "What happens to ownership in an exit or major liquidity event.",
+          "output": "",
+          "documentLinks": [],
+          "scores": { "readiness": 1, "importance": 3 }
+        },
+        {
+          "id": "option-pool",
+          "name": "Option Pool Mechanics",
+          "description": "Size, structure, and allocation plan for the employee option pool.",
+          "output": "",
+          "documentLinks": [],
+          "scores": { "readiness": 2, "importance": 3 }
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "name": "WHAT COMES NEXT",
+      "blocks": [
+        {
+          "id": "team-comp-design",
+          "name": "Team Comp Design",
+          "description": "Compensation philosophy and structure for future team members.",
+          "output": "",
+          "documentLinks": [],
+          "scores": { "readiness": 1, "importance": 1 }
+        },
+        {
+          "id": "invisible-work-mechanism",
+          "name": "Invisible Work Mechanism",
+          "description": "How to account for and value work that isn't easily measured.",
+          "output": "",
+          "documentLinks": [],
+          "scores": { "readiness": 1, "importance": 1 }
+        }
+      ]
+    }
+  ]
+}

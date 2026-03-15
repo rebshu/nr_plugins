@@ -131,6 +131,14 @@ Example:
 
 Do this silently — don't mention the index update to the user.
 
+### Step 5.5: Mark for Embedding Refresh (When Enabled)
+
+If the semantic retrieval pipeline is enabled, new/updated Knowledge Base pages are eligible for embedding refresh on the next incremental run.
+
+- Eligibility rule: page is new OR `last_edited_time` changed OR content hash changed.
+- The embedding pipeline is asynchronous; do not block page creation on embedding completion.
+- If semantic retrieval is temporarily degraded, index-first retrieval remains the default fallback path.
+
 ### Step 6: Confirm
 
 Tell the user it's done. Provide:

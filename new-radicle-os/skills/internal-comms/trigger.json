@@ -1,0 +1,44 @@
+{
+  "phrases": [
+    "write a status report",
+    "draft an update",
+    "company newsletter",
+    "leadership update",
+    "3P update",
+    "write an FAQ",
+    "incident report",
+    "project update",
+    "team announcement"
+  ],
+  "keywords": [
+    "status report", "update", "newsletter", "comms", "communications",
+    "FAQ", "incident", "announcement", "memo", "brief", "3P"
+  ],
+
+  "archetype": "Build",
+  "intentPatterns": [
+    "writing a structured internal update for stakeholders",
+    "drafting a company newsletter or team announcement",
+    "creating an FAQ document for a recent decision or change",
+    "writing an incident report or post-mortem summary",
+    "preparing a leadership-facing progress update"
+  ],
+  "domain": ["narrative", "people", "operations"],
+  "action": ["write", "draft", "create", "prepare", "communicate"],
+  "object": ["update", "report", "newsletter", "FAQ", "announcement", "memo"],
+
+  "stages": ["*"],
+  "goals": ["*"],
+  "timeTriggers": ["weekly", "biweekly", "monthly"],
+  "eventTriggers": ["milestone_reached", "incident_occurred", "decision_finalized", "funding_round_closed"],
+
+  "priority": 6,
+  "exclusive": false,
+  "composable": true,
+  "proactive": true,
+  "proactiveConditions": [
+    "a major decision or milestone has been logged via share-with-team",
+    "a time-based cadence trigger fires (e.g., weekly status report)",
+    "multiple sessions have completed in a domain and a synthesis update would be useful"
+  ]
+}

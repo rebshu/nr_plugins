@@ -1,0 +1,105 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "DecisionFramework",
+  "description": "A phased decision architecture with trackable building blocks and multi-lens scoring",
+  "type": "object",
+  "required": ["title", "phases", "scoringViews"],
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Main title of the framework (e.g., 'Ownership Structure')"
+    },
+    "subtitle": {
+      "type": "string",
+      "description": "Explanatory subtitle"
+    },
+    "orgLabel": {
+      "type": "string",
+      "description": "Org name and context label (e.g., 'NEWRADICLE — INTERNAL · MARCH 2026')"
+    },
+    "phases": {
+      "type": "array",
+      "description": "Ordered phases of the decision",
+      "items": {
+        "$ref": "#/$defs/Phase"
+      }
+    },
+    "scoringViews": {
+      "type": "array",
+      "description": "Different lenses for viewing block scores (tabs)",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/ScoringView"
+      }
+    },
+    "documentIndexUrl": {
+      "type": "string",
+      "description": "URL to the full document index (optional)"
+    }
+  },
+  "$defs": {
+    "Phase": {
+      "type": "object",
+      "required": ["number", "name", "blocks"],
+      "properties": {
+        "number": { "type": "integer" },
+        "name": { "type": "string", "description": "Phase name in caps (e.g., 'WHO WE ARE')" },
+        "blocks": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/BuildingBlock" }
+        }
+      }
+    },
+    "BuildingBlock": {
+      "type": "object",
+      "required": ["id", "name"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "description": { "type": "string", "description": "What this block is" },
+        "output": { "type": "string", "description": "What was produced for this block" },
+        "documentLinks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": { "type": "string" },
+              "url": { "type": "string" },
+              "type": { "type": "string", "enum": ["exploration", "decision", "reference", "artifact"] }
+            }
+          }
+        },
+        "scores": {
+          "type": "object",
+          "description": "Score per scoring view, keyed by scoringView id",
+          "additionalProperties": { "type": "integer", "minimum": 1, "maximum": 4 }
+        }
+      }
+    },
+    "ScoringView": {
+      "type": "object",
+      "required": ["id", "name", "scale"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string", "description": "Tab label (e.g., 'Where we are')" },
+        "description": { "type": "string", "description": "Explanatory text shown under the tab" },
+        "scale": {
+          "type": "array",
+          "description": "Score levels from lowest (1) to highest (4)",
+          "minItems": 2,
+          "maxItems": 5,
+          "items": {
+            "type": "object",
+            "required": ["value", "label", "color"],
+            "properties": {
+              "value": { "type": "integer" },
+              "label": { "type": "string" },
+              "color": { "type": "string", "description": "CSS color for dots at this level" },
+              "legendLabel": { "type": "string", "description": "Short label for the legend bar" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

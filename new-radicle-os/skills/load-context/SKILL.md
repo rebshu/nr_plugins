@@ -37,6 +37,15 @@ The index is organized by category (Product, Planning, Business Operations, Cust
 
 **Why index-first:** The index lets you scan 50+ docs in one fetch instead of running multiple searches and hoping you find the right ones. Read the index, identify which docs are relevant, then fetch only those.
 
+### Vector Retrieval (Opt-in)
+
+An optional retrieval service can be used for semantic lookup when keyword/index scans are weak:
+
+- `POST /search` with `{ "query": "...", "top_k": 5 }`
+- Returns ranked chunks with cosine-similarity scores from the Knowledge Base embedding index.
+- Use only when explicitly asked for semantic retrieval or when index-first/search fallback cannot find relevant material.
+- If the API is unavailable or quality is low, fall back immediately to index-first retrieval.
+
 ## How It Works
 
 ### Step 0: Read the Context Index (All Modes)
@@ -97,12 +106,23 @@ When the user is about to start a task and wants Claude loaded with the right ba
 
 4. **Proceed with the task.** The user's next request should benefit from the context you just loaded.
 
+### Mode 4: Semantic Retrieval (Opt-in)
+
+When the user asks open-ended questions that do not map cleanly to known index entries:
+
+1. Start with Step 0 and quick index scan as normal.
+2. If confidence is low, query the vector retrieval API for top semantic matches.
+3. Validate returned chunks for relevance and recency before presenting them.
+4. If vector results are noisy or stale, fall back to index-first + targeted `notion-search`.
+5. Tell the user when semantic retrieval was used and still cite source pages.
+
 ## What NOT To Do
 
 - Don't load everything. The Document Hub has 60+ items. Be selective based on what's relevant.
 - Don't make the user wait through a long summary if they just want to get to work. In Mode 3, a brief confirmation is enough.
 - Don't present raw database query results. The user wants knowledge, not a table of Notion properties.
 - Don't load context that's clearly stale (6+ months old) unless specifically relevant to the current task.
+- Don't force vector retrieval for every request. Index-first remains the default unless semantic mode is needed.
 
 ## Tone
 

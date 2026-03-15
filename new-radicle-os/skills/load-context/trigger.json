@@ -1,0 +1,41 @@
+{
+  "phrases": [
+    "catch me up",
+    "load context",
+    "what's the latest",
+    "brief me",
+    "pull in our docs",
+    "what has the team been working on",
+    "what do we know about"
+  ],
+  "keywords": [
+    "context", "brief", "background", "catch up", "latest",
+    "recap", "status", "what we know", "hub", "document hub"
+  ],
+
+  "archetype": "Orient",
+  "intentPatterns": [
+    "getting up to speed before starting work",
+    "understanding what the team has already produced on a topic",
+    "loading company context before a strategic task",
+    "checking what's in the document hub on a subject"
+  ],
+  "domain": ["*"],
+  "action": ["orient", "review", "load", "retrieve", "understand"],
+  "object": ["context", "documents", "team output", "company background"],
+
+  "stages": ["*"],
+  "goals": ["*"],
+  "timeTriggers": ["session_start"],
+  "eventTriggers": ["new_session_started", "topic_shift_detected", "strategic_task_initiated"],
+
+  "priority": 10,
+  "exclusive": false,
+  "composable": true,
+  "proactive": true,
+  "proactiveConditions": [
+    "session has no prior context loaded",
+    "user begins a strategic, client-facing, or product task without prior context",
+    "user references a topic that exists in the Document Hub"
+  ]
+}
