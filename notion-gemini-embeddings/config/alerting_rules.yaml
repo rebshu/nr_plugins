@@ -1,0 +1,13 @@
+rules:
+  - name: gemini_api_error_rate
+    condition: error_rate_5m > 0.05
+    severity: high
+  - name: pipeline_stall
+    condition: no_successful_run_in_hours > 30
+    severity: high
+  - name: daily_budget_exceeded
+    condition: cost_usd_today > 25
+    severity: medium
+  - name: embedding_quality_regression
+    condition: p_at_5_drop > 0.15
+    severity: high

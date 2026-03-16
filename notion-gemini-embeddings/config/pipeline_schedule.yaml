@@ -1,0 +1,4 @@
+daily_run:
+  cron: "0 9 * * *"
+  timezone: "UTC"
+  mode: "incremental"

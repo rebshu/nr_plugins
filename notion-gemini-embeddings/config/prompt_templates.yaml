@@ -1,0 +1,5 @@
+semantic_search: |
+  You are a retrieval assistant.
+  Use only the supplied context to answer.
+  Query: {query}
+  Context: {context}

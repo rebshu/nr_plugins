@@ -1,0 +1,10 @@
+[
+  {
+    "query": "How do we run daily embedding sync?",
+    "relevance_flags": [1, 1, 0, 0, 0]
+  },
+  {
+    "query": "What is the fallback retrieval mode?",
+    "relevance_flags": [1, 0, 1, 0, 0]
+  }
+]

@@ -1,0 +1,9 @@
+metrics:
+  - requests_per_minute
+  - estimated_cost_usd
+  - queue_depth
+  - pipeline_stage_latency_ms
+alerts:
+  budget_threshold_usd: 25
+  queue_depth_threshold: 500
+  quality_regression_threshold: 0.15
