@@ -1,0 +1,52 @@
+{
+  "phrases": [
+    "push changes",
+    "publish plugin",
+    "release update",
+    "push this version",
+    "ship it",
+    "push to marketplace",
+    "ready to publish",
+    "pre-publish check",
+    "release checklist",
+    "what needs to happen before we push",
+    "push the plugin",
+    "publish the update",
+    "ready to ship"
+  ],
+  "keywords": [
+    "push", "publish", "release", "ship", "pre-publish",
+    "version bump", "release checklist", "plugin update",
+    "marketplace", "deploy"
+  ],
+
+  "archetype": "Review",
+  "intentPatterns": [
+    "preparing to push plugin changes to the repository",
+    "running pre-publish checks before shipping a plugin update",
+    "verifying documentation and security before a release",
+    "performing the standard release gate workflow"
+  ],
+  "domain": ["engineering", "plugin", "operations"],
+  "action": ["publish", "push", "release", "ship", "review", "check"],
+  "object": ["plugin", "changes", "update", "version", "release"],
+
+  "stages": ["*"],
+  "goals": ["*"],
+  "timeTriggers": [],
+  "eventTriggers": [
+    "plugin_push_requested",
+    "version_update_requested",
+    "release_candidate_prepared"
+  ],
+
+  "priority": 10,
+  "exclusive": false,
+  "composable": true,
+  "proactive": true,
+  "proactiveConditions": [
+    "user asks to push plugin changes to GitHub or the marketplace",
+    "user says they're done with changes and ready to ship",
+    "multiple skill files have been modified in the current session"
+  ]
+}

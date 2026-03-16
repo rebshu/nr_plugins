@@ -1,0 +1,23 @@
+{
+  "skill_name": "pre-publish",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "ok i just updated load-context and share-with-team with the new intent-aware retrieval stuff. push these changes",
+      "expected_output": "Should trigger pre-publish pipeline. Phase 1 should check schema alignment between the two updated skill files. Should detect if README skill table is stale. Should chain to security gate. Should infer minor version bump since retrieval behavior changed.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "i fixed a typo in the founder-agents SKILL.md and added a new example to internal-comms. ready to ship",
+      "expected_output": "Should trigger pre-publish pipeline. Phase 1 should pass quickly since these are isolated changes. Security gate should be lightweight. Should infer patch version bump since no behavior changed.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "we just added the pre-publish skill and updated the README. i also made ai-security-audit composable instead of exclusive. push to marketplace",
+      "expected_output": "Should trigger pre-publish pipeline. Phase 1 should verify the new skill appears in README table, check trigger.json change on ai-security-audit. Should infer minor bump since a new skill was added. Should note the trigger.json behavioral change.",
+      "files": []
+    }
+  ]
+}

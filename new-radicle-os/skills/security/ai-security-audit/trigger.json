@@ -1,0 +1,58 @@
+{
+  "phrases": [
+    "push to github",
+    "push this to github",
+    "push this branch to github",
+    "push branch to github",
+    "git push this",
+    "git push",
+    "publish this code",
+    "open a pr and push",
+    "ship this to github",
+    "ready to push",
+    "before we push this, check security",
+    "run a security check before push"
+  ],
+  "keywords": [
+    "github",
+    "git push",
+    "push",
+    "publish code",
+    "ship code",
+    "security review",
+    "ai security audit",
+    "pre-push"
+  ],
+
+  "archetype": "Evaluate",
+  "intentPatterns": [
+    "performing a pre-push AI security review before code goes to GitHub",
+    "checking for AI/security/privacy risk before publishing code",
+    "triggering security guardrails when code publication is requested",
+    "auditing tool and data-risk posture ahead of release"
+  ],
+  "domain": ["engineering", "security", "compliance"],
+  "action": ["audit", "review", "evaluate", "check", "validate"],
+  "object": ["code push", "github publication", "security posture", "ai tool risk"],
+
+  "stages": ["*"],
+  "goals": ["*"],
+  "timeTriggers": [],
+  "eventTriggers": [
+    "github_push_requested",
+    "git_push_requested",
+    "pull_request_publish_requested",
+    "release_candidate_prepared"
+  ],
+
+  "priority": 10,
+  "exclusive": false,
+  "composable": true,
+  "proactive": true,
+  "proactiveConditions": [
+    "a user asks to push code to GitHub",
+    "a user asks to run git push",
+    "a pull request is being finalized for publication",
+    "security review has not yet been run in the current code publication flow"
+  ]
+}

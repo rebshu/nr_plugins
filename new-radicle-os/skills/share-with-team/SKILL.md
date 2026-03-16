@@ -24,6 +24,8 @@ The team's shared knowledge base lives in Notion:
 - `Description` (text) — 1-3 sentence summary of what this is and why it matters
 - `Date` (date) — when it was created
 - `Link` (text) — optional, if the artifact has a URL
+- `Context System Type` (select) — Exploration, Decision, Reference, or Artifact (auto-inferred from content)
+- `Context Authority` (select) — Foundational, Referential (default), or Exploratory
 - `Created by` (person) — the user who shared it
 
 ## How It Works
@@ -64,10 +66,27 @@ Present the categories and suggest the most likely one(s) based on the content:
 **Question 3: Quick description**
 Draft a 1-2 sentence description of what this is and why the team should care. Let the user approve or edit.
 
+**Question 4: Context Authority**
+Present three options with one-line descriptions:
+- **Foundational** — A rule or constraint the team must follow (brand guidelines, legal requirements, approved frameworks)
+- **Referential** — Settled knowledge the team has produced (decisions, analyses, research synthesis)
+- **Exploratory** — Still being evaluated, not yet validated (early research, hypotheses, draft strategies)
+
+Default to Referential. Most shares are referential — keep the fast path fast. Only prompt for Foundational if the user explicitly selects it, since foundational docs bypass relevance scoring and always get loaded.
+
 **Optional: Link**
 If the artifact has a relevant URL (a Claude public artifact link, a Google Doc, a GitHub repo, etc.), include it. If not, skip — don't ask about it.
 
-Combine all three questions into a single AskUserQuestion call to minimize back-and-forth. The Category question should use `multiSelect: true` since items can have multiple categories.
+**Auto-inferred: Context System Type**
+Don't ask the user — infer this from the content being shared:
+- **Exploration** — early research, brainstorms, landscape scans, open questions
+- **Decision** — a choice that was made, with rationale and alternatives considered
+- **Reference** — settled knowledge meant to be looked up later (guidelines, frameworks, templates)
+- **Artifact** — a deliverable (a doc, deck, spreadsheet, design, code)
+
+If it's ambiguous, default to Reference. Set this on the Notion page in Step 4.
+
+Combine all four questions into a single AskUserQuestion call to minimize back-and-forth. The Category question should use `multiSelect: true` since items can have multiple categories. The Context Authority question should default to Referential.
 
 ### Step 3: Prepare the Content
 
@@ -103,6 +122,8 @@ Set the properties:
 - `date:Date:start`: today's date in YYYY-MM-DD format
 - `date:Date:is_datetime`: 0
 - `Created by`: the user ID from Step 0, formatted as a JSON array string, e.g. `"[\"user://uuid\"]"`
+- `Context System Type`: the inferred type (Exploration, Decision, Reference, or Artifact)
+- `Context Authority`: the selected authority level (Foundational, Referential, or Exploratory)
 - `Link`: the URL if one exists, otherwise omit
 
 Set the page content to the prepared markdown. Use standard markdown — Notion's page content format supports headers, bullet lists, bold, links, and code blocks. Keep it clean and readable.
@@ -119,25 +140,29 @@ After creating the page, append an entry to the **Context Index** page in Notion
 
 Each index entry should be a single line in this format:
 ```
-- **[Title]** ([Notion page URL]) — [1-sentence description]. [Context System Type if set]. Added [date] by [creator first name].
+- **[Title]** ([Notion page URL]) — [1-sentence description]. [Context System Type if set]. [Authority tag if not Referential]. Added [date] by [creator first name].
 ```
 
-Example:
+**Authority tags in the index:** Only add the authority tag if it's not Referential (since that's the default). Foundational entries get tagged `🔒 Foundational`. Exploratory entries get tagged `⟡ Exploratory`. This makes foundational docs visually scannable in the index.
+
+Example (referential — no tag needed):
 ```
 - **Pricing Strategy v2** (https://www.notion.so/abc123) — Revised pricing framework based on competitor analysis and customer interviews. Decision. Added 2026-03-10 by Rebecca.
+```
+
+Example (foundational):
+```
+- **Brand Guidelines v3** (https://www.notion.so/def456) — Official brand voice, colors, and usage rules. Reference. 🔒 Foundational. Added 2026-03-08 by Kelly.
+```
+
+Example (exploratory):
+```
+- **AI Pricing Models Research** (https://www.notion.so/ghi789) — Early research into usage-based pricing for AI features. Exploration. ⟡ Exploratory. Added 2026-03-12 by Johny.
 ```
 
 4. Also update the "**Last updated:**" date at the top of the index page to today's date.
 
 Do this silently — don't mention the index update to the user.
-
-### Step 5.5: Mark for Embedding Refresh (When Enabled)
-
-If the semantic retrieval pipeline is enabled, new/updated Knowledge Base pages are eligible for embedding refresh on the next incremental run.
-
-- Eligibility rule: page is new OR `last_edited_time` changed OR content hash changed.
-- The embedding pipeline is asynchronous; do not block page creation on embedding completion.
-- If semantic retrieval is temporarily degraded, index-first retrieval remains the default fallback path.
 
 ### Step 6: Confirm
 
