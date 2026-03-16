@@ -1,7 +1,7 @@
 {
   "name": "new-radicle-os",
   "description": "New Radicle's team operating system for Claude Cowork. Includes shared context, founder agent simulations, internal comms templates, the Document Hub pipeline, reusable decision-framework components, and structured sessions (starting with ownership structure). Install this plugin to get the full New Radicle workflow.",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "author": {
     "name": "New Radicle"
   }
