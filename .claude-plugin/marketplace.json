@@ -1,0 +1,14 @@
+{
+  "name": "nr-plugins",
+  "owner": {
+    "name": "New Radicle"
+  },
+  "plugins": [
+    {
+      "name": "new-radicle-os",
+      "source": "./new-radicle-os",
+      "description": "New Radicle's team operating system for Claude Cowork. Includes shared context, founder agent simulations, the Document Hub pipeline, decision-framework components, and structured sessions.",
+      "version": "0.4.3"
+    }
+  ]
+}
