@@ -52,6 +52,8 @@ If the content is a file, note the file path. The artifact's content will go int
 
 Ask the user a few quick questions using the AskUserQuestion tool. Keep it lightweight — the point is speed, not bureaucracy.
 
+**Hard gate: Do not proceed to Step 3 or any Notion API calls until the user has responded to the metadata questions.** Background steps (user lookup, duplicate check) can run before asking, but page creation must wait for confirmed answers.
+
 **Question 1: Title**
 Suggest a title based on the conversation. Let the user confirm or change it. Don't ask in a separate round-trip if you can suggest something good.
 
